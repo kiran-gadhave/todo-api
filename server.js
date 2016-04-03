@@ -25,7 +25,18 @@ app.get('/todos', function(req, res){
 });
 
 app.get('/todos/:id', function(req, res){
-	
+	var flag = false;
+	var selItem;
+	for(item of todos){
+		if(item.id == req.params.id){
+			flag = true;
+			selItem = item;
+		}
+	}
+	if(flag)
+		res.json(selItem);
+	else
+		res.status(404).send();
 });
 
 app.listen(PORT, function(error){
