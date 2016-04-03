@@ -1,26 +1,28 @@
-var express = require('express'),
-	app		= express(),
-	bodyParser = require('body-parser'),
-	PORT	= process.env.PORT || 3000;
+var express 	= require('express'),
+	app			= express(),
+	bodyParser 	= require('body-parser'),
+	_			= require('underscore'),
+	PORT		= process.env.PORT || 3000;
 
-// var todos = [{
-// 	id: 1, 
-// 	desc: "Goto Office",
-// 	status: false
-// }, {
-// 	id: 2,
-// 	desc: "Goto Market",
-// 	status: false
-// }, {
-// 	id:3,
-// 	desc: "Goto HEll",
-// 	status: true
-// }];
+var todos = [];
+
+var todos = [{
+	id: 1, 
+	desc: "Goto Office",
+	status: false
+}, {
+	id: 2,
+	desc: "Goto Market",
+	status: false
+}, {
+	id:3,
+	desc: "Goto HEll",
+	status: true
+}];
 
 app.use(bodyParser.json());
 
 var todoNextId = 1;
-var todos = [];
 
 app.get('/', function(req, res){
 	res.send('TODO API ROOT');
@@ -31,18 +33,20 @@ app.get('/todos', function(req, res){
 });
 
 app.get('/todos/:id', function(req, res){
-	var flag = false;
 	var selItem;
-	for(item of todos){
-		if(item.id == req.params.id){
-			flag = true;
-			selItem = item;
-		}
-	}
-	if(flag)
+	// for(item of todos){
+	// 	if(item.id == req.params.id){
+	// 		flag = true;
+	// 		selItem = item;
+	// 	}
+	// }
+
+	selItem = _.findWhere(todos, {id: parseInt(req.params.id, 10)});
+	
+	// if(selItem)
 		res.json(selItem);
-	else
-		res.status(404).send();
+	// else
+		// res.status(404).send();
 });
 
 app.post('/todos', function(req, res){
